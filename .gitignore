@@ -1,0 +1,14 @@
+.DS_Store
+#RVM
+.rvmrc
+
+#main yml configs, leave examples only
+config/*.yml
+
+#Logs & Tmp
+log/*
+tmp/*
+
+Gemfile.lock
+
+coverage
