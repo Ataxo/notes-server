@@ -1,0 +1,56 @@
+.login {
+  margin-left:auto;
+  margin-right:auto;
+  width:600px;
+  margin-top:40px;
+}
+
+form.login_form {
+	background:none;
+	border:none;
+	display:inline-block;
+}
+form.login_form input[type="text"] {
+	display:inline-block;
+	margin-top:5px;
+	background-color: #EEE;
+	background-image: -o-linear-gradient(top, #fefefe, #eee);
+	background-image: -ms-linear-gradient(top, #fefefe, #eee);
+	background-image: -moz-linear-gradient(top, #fefefe, #eee);
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#fefefe), to(#eee));
+	background-image: -webkit-linear-gradient(top, #fefefe, #eee);
+	background-image: linear-gradient(top, #fefefe, #eee);
+	border-color: #AAA;
+	-moz-box-shadow: inset 0 1px 0 #fff,0 1px 3px rgba(0,0,0,0.15);
+	-webkit-box-shadow: inset 0 1px 0 #fff,0 1px 3px rgba(0,0,0,0.15);
+	box-shadow: inset 0 1px 0 #fff,0 1px 3px rgba(0,0,0,0.15);
+	color: #111;
+	text-shadow: 0 1px 0 white;
+	border: 1px solid #AAA;
+	-o-border-radius: 2px;
+	-ms-border-radius: 2px;
+	-moz-border-radius: 2px;
+	-khtml-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	border-radius: 2px;
+	display: inline-block;
+	font-family: Arial, sans-serif;
+	font-size: 13px;
+	line-height: 16px;
+	padding: 4px 4px;
+	width:300px;
+
+	-webkit-transition: all 200ms ease;
+	-moz-transition: all 200ms ease;
+	-o-transition: all 200ms ease;
+	transition: all 200ms ease;	
+}
+form.login_form input[type="submit"] {
+	margin:0px;
+	margin-left:-5px;
+}
+
+.login span {
+	padding-left:15px;
+	color:#909090;
+}

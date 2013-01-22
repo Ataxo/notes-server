@@ -1,0 +1,148 @@
+/*
+Monokai style - ported by Luigi Maselli - http://grigio.org
+*/
+
+pre code {
+  display: block; padding: 0.5em;
+  background: #f8f8f8;
+  border:1px solid #f0f0f0;
+  text-shadow:none;
+  color: #3b3b3b;
+  letter-spacing:0.08em;
+  font-size:13px;
+  border-radius: 3px;
+}
+
+code {
+  display: inline-block; 
+  padding: 0.1em 0.3em;
+  background: #f8f8f8;
+  border:1px solid #f0f0f0;
+  text-shadow:none;
+  color: #3b3b3b;
+  letter-spacing:0.08em;
+  font-size:13px;
+  border-radius: 3px;
+}
+
+pre code *{
+  text-shadow:none;
+  color: #3b3b3b;
+  letter-spacing:0.08em;
+  font-size:13px;
+}
+
+pre .params .identifier .keymethods, pre i *{
+  color: #FD971F;
+}
+
+pre i {
+ font-style: normal;
+}
+pre .tag,
+pre .keyword,
+pre .literal,
+pre .change,
+pre .winutils,
+pre .flow,
+pre .lisp .title,
+pre .tex .special {
+  color: #F92672;
+}
+
+pre .number {
+  color: #00adeb;
+}
+
+pre code {
+  color: #424242;
+  overflow-x: auto;
+}
+
+pre code .constant {
+  color: #66D9EF;
+}
+
+pre .class .title {
+  color: #bb8205;
+}
+
+pre .attribute,
+pre .symbol,
+pre .value,
+pre b * {
+  color: #BF79DB;
+}
+
+pre .tag .value,
+pre .string,
+pre .ruby .subst,
+pre .function .title,
+pre .haskell .label,
+pre .ini .title,
+pre .preprocessor,
+pre .ruby .instancevar,
+pre .ruby .class .parent,
+pre .built_in,
+pre .sql .aggregate,
+pre .django .template_tag,
+pre .django .variable,
+pre .smalltalk .class,
+pre .javadoc,
+pre .ruby .string,
+pre .django .filter .argument,
+pre .smalltalk .localvars,
+pre .smalltalk .array,
+pre .attr_selector,
+pre .pseudo,
+pre .addition,
+pre .stream,
+pre .envvar,
+pre .apache .tag,
+pre .apache .cbracket,
+pre .tex .command,
+pre .input_number {
+  color: #2d9f00;
+}
+pre .comment,
+pre .java .annotation,
+pre .python .decorator,
+pre .template_comment,
+pre .pi,
+pre .doctype,
+pre .deletion,
+pre .shebang,
+pre .apache .sqbracket,
+pre .tex .formula {
+  color: #a3a3a3;
+}
+
+pre .keyword,
+pre .literal,
+pre .css .id,
+pre .phpdoc,
+pre .function .title,
+pre .class .title,
+pre .haskell .label,
+pre .vbscript .built_in,
+pre .sql .aggregate,
+pre .rsl .built_in,
+pre .smalltalk .class,
+pre .xml .tag .title,
+pre .diff .header,
+pre .chunk,
+pre .winutils,
+pre .bash .variable,
+pre .lisp .title,
+pre .apache .tag,
+pre .tex .special {
+  font-weight: 400;
+}
+
+pre .coffeescript .javascript,
+pre .xml .css,
+pre .xml .javascript,
+pre .xml .vbscript,
+pre .tex .formula {
+  opacity: 0.5;
+}

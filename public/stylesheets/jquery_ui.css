@@ -1,0 +1,40 @@
+#form_tabs .tab, #form_tabs .sub_tab { position: relative; zoom: 1; } /* position: relative prevents IE scroll bug (element with position: relative inside container with overflow: auto appear as "fixed") */
+#form_tabs ul { margin: 0; padding-top:15px; }
+#form_tabs ul li { list-style: none; float: left; position: relative; top: 0; margin: 1px .2em 0 0; border-bottom: 0; padding: 0; white-space: nowrap; }
+#form_tabs ul li a { 
+  float: left; text-decoration: none;
+  padding-left:0px;
+  padding-right:1.5em;
+  padding-bottom:4px;
+  -o-box-shadow: none;
+  -ms-box-shadow: none;
+  -moz-box-shadow: none;
+  -khtml-box-shadow: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  color: #5c5c5c;
+  outline: none;
+ }
+
+#form_tabs ul li a:hover { 
+  color: #bb7218;
+}
+#form_tabs ul li a.current { 
+  cursor: text; 
+  color: #9e272c; 
+}
+#form_tabs .tab, #form_tabs .sub_tab { clear:both; border-top: 1px solid #c5c5c5; padding-top:10px; clear: both; display: block; border-width: 0; background: none; }
+ 
+#form_tabs .tab h2 {
+  clear:both;  
+  padding-top:20px;
+  border-top: 1px solid #dddddd;
+}
+
+#form_tabs .sub_tab h3 { 
+  clear:both; 
+  padding-top:20px;
+  border-top: 1px solid #eeeeee;
+}
