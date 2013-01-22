@@ -1,0 +1,38 @@
+<h1> 
+  Accesses 
+  <a href='/accesses/form' class='button add_new_access fr'>+ Add new access</a>
+</h1>
+<table class='display'>
+  <thead>
+    <tr>
+      <th>name</th>
+      <th>api_token</th>
+      <th>taxonomies</th>
+      <th>actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% Auth.applications.each_with_index do |(token, app), index| %>
+      <tr class='access_container <%= index %2 == 0 ? 'odd' : 'even' %>' data-token='<%= app.api_token %>'>
+        <td rowspan='2' class='access_name'><%= app.name %></td>
+        <td><small class='api_token'><%= app.api_token %></small></td>
+        <td><%= app.taxonomies %></td>
+        <td rowspan='2'>
+          <div class='button revoke_token_access'>revoke token</div>
+          <a href='/accesses/form?api_token=<%= app.api_token %>' class='button update_access'>update</a>
+          <div class='button remove_access'>remove</div>
+        </td>
+      </tr>
+
+      <tr class='access_container <%= index %2 == 0 ? 'odd' : 'even' %>' data-token='<%= app.api_token %>'>
+        <td colspan='2'><%= app.methods.is_a?(Array) ? app.methods.join("<br /> ") : app.methods %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<img src='/images/loader.gif' class='acceses_loader' />
+
+
+<div class='accesses_response'></div>
+

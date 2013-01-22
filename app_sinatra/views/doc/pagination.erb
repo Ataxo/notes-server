@@ -1,0 +1,46 @@
+<h2 id='pagination_limits'>Pagination, Limits &amp; Order</h2>
+<p >All methods for getting more data then one item are by default paginated with limit 10 and offset 0</p>
+<table class='display'>
+  <thead>
+    <tr>
+      <th>parameter</th>
+      <th>default value</th>
+      <th>description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class='even'>
+      <td>limit</td>
+      <td>10</td>
+      <td>how many items will be returned by api (if you set limit to -1 it will return all records - <b>do this only when you know what are you doing<b/>)</td>
+    </tr>
+    <tr class='odd'>
+      <td>offset</td>
+      <td>0</td>
+      <td>default - return first records, setting this will allow you to paginate over records</td>
+    </tr>
+    <tr class='even'>
+      <td>order</td>
+      <td></td>
+      <td>specify property name to use for order &amp; direction <code>asc</code> or <code>desc</code></td>
+    </tr>
+  </tbody>
+</table>
+<p  class='notify notifier'>All these methods have <code>total_count</code> property in response, which will tell you, how many records you can get</p>
+<h4>Example of pagination and limits</h4>
+<pre><code class='ruby'>http://<%= request.env["HTTP_HOST"] %>/v1/sandbox/models?<b>limit</b>=<i>20</i>&amp;<b>offset</b>=<i>35</i>
+# => This will return you records from 35-54
+
+http://<%= request.env["HTTP_HOST"] %>/v1/sandbox/models?<b>limit</b>=<i>30</i>&amp;<b>offset</b>=<i>0</i>
+# => This will return you records from 0-29
+
+http://<%= request.env["HTTP_HOST"] %>/v1/sandbox/models?<b>limit</b>=<i>-1</i>
+# => This will return you all records
+
+http://<%= request.env["HTTP_HOST"] %>/v1/sandbox/models?<b>limit</b>=<i>-1</i>&amp;<b>order</b>=<i>id</i>
+# => This will return you all records ordered by ID
+
+http://<%= request.env["HTTP_HOST"] %>/v1/sandbox/models?<b>limit</b>=<i>-1</i>&amp;<b>order</b>=<i>id desc, name asc</i>
+# => This will return you all records ordered by ID descendent &amp; Name ascendent
+
+</code></pre>

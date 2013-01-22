@@ -1,0 +1,82 @@
+<% url = "/#{@version}/#{@taxonomy}#{method.url}" %>
+<% method_uid = url.gsub("/","_").gsub(":","") %>
+<h3><%= method.desc %></h3>
+<p><%= t "#{model.name.underscore}.#{method.type}.#{method.url}", :scope => [:method, :description] %></p>
+
+<div class='method' 
+ data-model='<%= model.name.underscore %>'
+ data-models='<%= model.name.pluralize.underscore %>'
+ data-columns='<%= Yajl::Encoder.encode(model.properties.keys.collect{|k| k.to_s.humanize}) %>'
+ data-header-columns='<%= Yajl::Encoder.encode(model.properties.keys.inject({}){|out,k| out[k] = k.to_s.humanize; out}) %>'
+ data-columns-properties='<%= Yajl::Encoder.encode(model.properties.keys.inject([]){|out,k| out << {name: k, index:k, width: 'auto'}; out}) %>'
+>
+
+  <div class='header'>
+    <div class='type type_<%= method.type %>'><%= method.type %></div>
+    <div class='url' data-url='http://<%= request.env["HTTP_HOST"]+url %>'>
+      <a href='http://<%= request.env["HTTP_HOST"]+url %>'>http://<%= request.env["HTTP_HOST"]+ url %></a>
+    </div>
+  </div>
+
+  <% if method.type == :put %>
+    <div class='button update_form fr'>Fill form with current data</div>
+    <div class='clear'></div>
+  <% end %>
+
+  <form method='<%= method.type %>' action="http://<%= request.env["HTTP_HOST"]+ url %>" data-api-token='<%= @api_access.api_token %>' >
+    <% already_shown_params = [] %>
+    <% if url =~ /:/ %>
+    
+      <% url.split("/").select{|u| u =~ /^:/}.collect{|u| u.gsub(":","") }.each do |param| %>
+        <% param_uid = "#{method_uid}_#{param}" %>
+        <% already_shown_params << param %>
+        <div class='form_field required'>
+          <label for="<%= param %>">URL: <%= param %></label>
+          <% data = model.properties[param] %>
+          <% type = data[:type].is_a?(Array) ? data[:type] : t(data[:type], :scope => [:properties, :data_formats]) if data[:type] %>
+          <% tooltip = "[#{type}] #{t(param, :scope=>[model.name, :properties])}" %>
+          <input type="text" name='<%= param %>' class='url_params_update' data-param-name="<%= param %>" class='with_tooltip' title='<%= tooltip %>' placeholder='<%= tooltip %>' />
+        </div>
+      <% end %>
+    
+    <% elsif method.type == :get %>
+
+      <% [:limit, :offset].each do |param| %>
+        <div class='form_field'>
+          <label for="<%= param %>"><%= param %></label>
+          <input type="text" name="<%= param %>" value='<%= Notes::FIND_DEFAULT[param] %>' />
+        </div>
+      <% end %>
+
+    <% end %>
+
+
+    <% if method.type == :post || method.type == :put %>
+
+      <% model.properties.each do |property, data| %>
+        <% unless already_shown_params.include?(property) %>
+          <div class='form_field <%= "required" if data[:required] %>'>
+            <label for="<%= property %>"><%= property %></label>
+            <% type = data[:type].is_a?(Array) ? data[:type] : t(data[:type], :scope => [:properties, :data_formats]) if data[:type] %>
+            <% tooltip = "[#{type}] #{t(property, :scope=>[model.name, :properties])}" %>
+            <% if data[:type].is_a?(Array) %>
+              <select name="<%= property %>" title='<%= tooltip %>' class='with_tooltip' >
+                <% data[:type].each do |value| %>
+                  <option value='<%= value %>'><%= value %></option>
+                <% end %>
+              </select>
+            <% else %>
+              <input type="text" name="<%= property %>" value='<%= data[:default] if data[:default] %>' placeholder='<%= tooltip %>' title='<%= tooltip %>' class='with_tooltip' />
+            <% end %>
+          </div>
+        <% end %>
+      <% end %>
+
+    <% end %>
+    <input type='submit' />
+  </form>
+
+  <img src='/images/loader.gif' class='form_loader' />
+  <div class='fullscreen_start'>START FULLSCREEEN</div>
+  <div class='form_response'></div>
+</div>

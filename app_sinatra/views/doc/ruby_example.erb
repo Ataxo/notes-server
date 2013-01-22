@@ -1,0 +1,39 @@
+<h2 id='ruby_example'>Ruby example of making call</h2>
+<p>Easiest way to get data from Slim APi is using <code>curb</code>. It is ruby binding of <code>curl</code></p>
+
+<pre><code class="ruby"># $ gem install curb
+require 'curb'
+
+# Get data from api
+c = Curl.get("http://silver.local:9393/v1/<%= @taxonomy %>/clients") do |curl| 
+  curl.headers["Api-Token"] = "<%= @api_access.api_token %>"
+  curl.headers["Content-Type"] = "application/json"
+end
+puts c.body_str
+
+# Get data from api with specified ID
+c = Curl.get("http://silver.local:9393/v1/<%= @taxonomy %>/clients", :id => 3923) do |curl| 
+  curl.headers["Api-Token"] = "<%= @api_access.api_token %>"
+  curl.headers["Content-Type"] = "application/json"
+end
+puts c.body_str
+
+<!-- # Create new data in api with params
+c = Curl.post("http://silver.local:9393/v1/<%= @taxonomy %>/clients", :id => 1219) do |curl| 
+  curl.headers["Api-Token"] = "<%= @api_access.api_token %>"
+end
+puts c.body_str
+
+# Update data in api with params
+c = Curl.put("http://silver.local:9393/v1/<%= @taxonomy %>/clients", :id => 1219) do |curl| 
+  curl.headers["Api-Token"] = "<%= @api_access.api_token %>"
+end
+puts c.body_str
+
+# Delete data by specified ID
+c = Curl.delete("http://silver.local:9393/v1/<%= @taxonomy %>/clients", :id => 1219) do |curl| 
+  curl.headers["Api-Token"] = "<%= @api_access.api_token %>"
+end
+puts c.body_str --></code></pre>
+
+<p class='notify notifier'>You can use in your tests for mocking curb request gem called <a href='https://github.com/bblimke/webmock'><code>WebMock</code></a></p>

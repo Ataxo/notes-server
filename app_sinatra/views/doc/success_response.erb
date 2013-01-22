@@ -1,0 +1,51 @@
+<h2 id='success_response'>Success response</h2>
+<p>Success responses are designed to help you get what you want from Slim API</p>
+
+<p>We are returning with every request its own code (part of JSON &amp; status code in headers):</p>
+<table class='display'>
+  <thead>
+    <tr>
+      <th>code</th>
+      <th>name</th>
+      <th>description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class='even'>
+      <td>200</td>
+      <td>Success</td>
+      <td>No need to describe this code :-)</td>
+    </tr>
+    <tr class='odd'>
+      <td>201</td>
+      <td>Created</td>
+      <td>You created new record</td>
+    </tr>
+    <tr class='even'>
+      <td>304</td>
+      <td>Not modified</td>
+      <td>You wanted to create or update something and it is already there or all parameters are same</td>
+    </tr>
+  </tbody>
+</table>
+<p class='notify notifier'>Every success response has <code>status: "ok"</code> to easier validation of Success/Error</p>
+
+<h4>Example of success response</h4>
+<pre><code class="javascript"># response headers:
+# status code: 200
+{
+  status: "ok",
+  code: 200,
+  message: "ok",
+  executed_at: "2012-10-22 22:30:54",
+  executed_in: "0.15320568s",
+  contract: {
+    id: 1219,
+    client_id: 11956,
+    admin_id: 0,
+    ...
+    geotargeting: false,
+    note: null
+  }
+}</code></pre>
+<p class='notify notifier'>Every success response has <code>executed_in: "0.15s"</code> show how long it took Slim Api to process this request</p>

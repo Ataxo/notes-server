@@ -1,0 +1,55 @@
+<h2 id='href_models'><%= t :models, :default => "Models", :scope => [:headline] %></h2>
+<% ApiDoc.models[@version].select{|model| model.api_methods.any?{|method| @api_access.method?(method.access_path @version) }}.each do |model| %>
+  <div class='model_container'>
+    <h2 id='model_<%= model.name.pluralize %>'><%= model.name.pluralize %></h2>
+    <p><%= t "#{model.name.downcase}", :scope => [:models, :description], :default => model.desc %></p>
+
+    <div class='method_container'>
+      <h3>Properties</h3>
+      <table class='display'>
+        <thead>
+          <tr>
+            <th>property</th>
+            <th>type</th>
+            <th>required</th>
+            <th>description</th>
+            <th>default</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% model.properties.each do |property, data| %>
+            <tr>
+              <td><%= property %></td>
+              <td><%= data[:type].is_a?(Array) ? data[:type] : t(data[:type], :scope => [:properties, :data_formats]) if data[:type] %></td>
+              <td><%= t("required") if data[:required] %></td>
+              <td><%= t property, :scope=>[model.name, :properties] %></td>
+              <td><%= data[:default] if data[:default] %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+
+      <%= erb "doc/statistics".to_sym if model.name == "Statistics" %>
+
+      <h3>Methods</h3>
+      <% model.api_methods.select{|method| @api_access.method?(method.access_path @version) }.each do |method| %>
+        <div class='method' data-api-token="<%= @api_access.api_token %>" data-fixture='<%= Yajl::Encoder.encode(model.fixture) %>' data-url-host='http://<%= request.env["HTTP_HOST"]%>'>
+          <div class='header'>
+            <div class='type type_<%= method.type %>'><%= method.type %></div>
+            <% url = "/#{@version}/#{@taxonomy}#{method.url}" %>
+            <div class='url'><a href='http://<%= request.env["HTTP_HOST"]+url %>'><%= url %></a></div>
+          </div>
+          <div class='info'>
+            <div class='desc'><%= method.desc %>
+              <%= t "#{model.name.downcase}.#{method.type}.#{method.url}", :scope => [:method, :description] %>
+            </div>
+          </div>
+          <div class='response not_initialized'>
+            <img src='/images/loader.gif' />
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+<% end %>
+

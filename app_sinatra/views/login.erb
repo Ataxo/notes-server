@@ -1,0 +1,15 @@
+<h1>Login</h1>
+<p>For accessing Slim Api you need to log in</p>
+
+<% if @flash_error %>
+	<div class="notify error"><%= @flash_error %></div>
+<% end %>
+
+<div class='login'>
+	<a href='<%= doorman_sign_in_url %>' class='button'>use login by Google Apps</a>
+	<span>or</span>
+	<form method='post' action='login' class='login_form'>
+    <input type='text' name='api_token' placeholder='API TOKEN' value='<%= params['api_token'] %>' />
+    <input type='submit' value='&rsaquo;' />
+  </form>
+</div>

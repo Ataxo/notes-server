@@ -1,0 +1,42 @@
+<h1><%= t :formulars, :scope => [:headline], :default => 'Online formulars for API' %> <%= @version %></h1>
+
+<div id="form_tabs">
+    <ul>
+    <% ApiDoc.models[@version].each do |model| %>
+      <% if model.api_methods.any?{|method| @api_access.method?(method.access_path @version) } %> 
+        <li><a href="#tab_<%= model.name.pluralize.downcase %>"><%= model.name.pluralize.to_s[0..9] + (model.name.pluralize.size > 10 ? "...": "") %></a></li>
+      <% end %>
+    <% end %>
+    </ul>
+<% ApiDoc.models[@version].each do |model| %>
+  <% if model.api_methods.any?{|method| @api_access.method?(method.access_path @version) } %> 
+    <div class='tab' id='tab_<%= model.name.pluralize.downcase %>'>
+      <h2><%= model.name.pluralize %></h2>
+      <div id="form_tabs_methods_<%= model.name.pluralize.downcase %>">
+        <ul>
+          <% model.api_methods.select{|method| @api_access.method?(method.access_path @version) }.each do |method| %>
+            <li><a href="#form_tabs_methods_<%= model.name.pluralize.downcase %>_<%= method.desc.underscore.gsub(" ","_") %>"><%= method.desc %></a></li>          
+          <% end %>
+        </ul>
+
+        <% model.api_methods.select{|method| @api_access.method?(method.access_path @version) }.each do |method| %>
+          <div class='sub_tab' id='form_tabs_methods_<%= model.name.pluralize.downcase %>_<%= method.desc.underscore.gsub(" ","_") %>'>
+            <%= erb "v1_one_form".to_sym, :locals => { model: model, method: method} %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+<% end %>
+<div>
+
+<script>
+$(function() {
+    //$( "#form_tabs" ).tabs();
+    $("#form_tabs > ul").tabs("#form_tabs > div.tab");
+
+    <% ApiDoc.models[@version].each do |model| %>
+      $('#form_tabs_methods_<%= model.name.pluralize.downcase %>').tabs("#form_tabs_methods_<%= model.name.pluralize.downcase %> > .sub_tab");
+    <% end %>
+});
+</script>

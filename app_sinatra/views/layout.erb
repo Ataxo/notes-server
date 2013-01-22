@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+  <head>
+   <meta charset="UTF-8">
+    <title>Notes server</title>
+    <link rel="shortcut icon" href="http://<%= request.env["HTTP_HOST"] %>/favicon.ico" />
+    <style type="text/css" media="all">
+      @import "/stylesheets/style.css";
+      @import "/stylesheets/monokai.css";
+      @import "/stylesheets/responsive.css";
+      @import "/stylesheets/login.css";
+      @import "/stylesheets/jquery_ui.css";
+      @import "/stylesheets/cubism.css";
+    </style>
+    <script type="text/javascript" language="javascript" src="/javascripts/jquery.js"></script>
+    <script type="text/javascript" language="javascript" src="/javascripts/jquery-ui.js"></script>
+    <% if @api_access %>
+      <script type="text/javascript" language="javascript" src="/javascripts/highlight.pack.js"></script>
+      <script type="text/javascript" language="javascript" src="/javascripts/doc.js"></script>
+      <script type="text/javascript" language="javascript" src="/javascripts/syntax_highlight.js"></script>
+      <script src="http://cdn.jquerytools.org/1.2.7/full/jquery.tools.min.js"></script>
+      <script type="text/javascript" language="javascript" src="/javascripts/jquery.jq_grid.min.js"></script>
+      <script type="text/javascript" language="javascript" src="/javascripts/taxonomy.js"></script>
+      <script type="text/javascript" language="javascript" src="/javascripts/form.js"></script>
+      <% if @api_access.admin? %>
+        <script type="text/javascript" language="javascript" src="/javascripts/d3.v2.min.js"></script>
+        <script type="text/javascript" language="javascript" src="/javascripts/cubism.v1.min.js"></script>
+        <script type="text/javascript" language="javascript" src="/javascripts/colorbrewer.min.js"></script>
+        <script type="text/javascript" language="javascript" src="/javascripts/accesses.js"></script>
+      <% end %>
+    <% end %>
+  </head>  
+  <body>
+	<div id="page">
+		<div id="header">
+
+			<h1>
+        Notes Server
+      </h1>
+      <div class="app_info">
+        <%= ENV['RACK_ENV'] %>
+        <% if @api_access %>        
+          | <a href="/change_log">version: <%= APP_VERSION_GIT.version %></a> | last api update: <%= APP_VERSION_GIT.changelog.first[:date].strftime("%H:%M %d.%m.%Y") %><br />
+          api_token: <b><%= @api_access.api_token %></b><br />
+          <a href="/sign_out">logout: <b><%= @api_access.name %></b></a><br />
+          
+          taxonomy: 
+          <select name='taxonomy' class='taxonomy_selection'>
+            <% @api_access.availible_taxonomies.each do |taxonomy| %>
+              <option value="<%= taxonomy %>" <%= "selected='selected'" if @taxonomy.to_s == taxonomy.to_s %> ><%= taxonomy %></option>
+            <% end %>
+          </select>
+        <% end %>
+      </div>
+		</div>
+		<div id="nav">
+			<ul>
+        <% if @api_access %>
+          <%= get_link "home" %>
+          <% ApiDoc.models.each do |version, models| %>
+            <%= get_link "doc/#{version}" %>
+            <%= get_link "form/#{version}" %>
+          <% end %>
+          <% if @api_access.admin? %>
+            <%= get_link "usage_stats", :admin %>
+            <%= get_link "accesses", :admin %>
+          <% end %>
+        <% end %>
+			</ul>
+			<div class="clear"></div>
+		</div>
+
+		<div id="content">
+			<%= yield %>
+			<div class="clear"></div>
+		</div>
+
+    <div class='overlay'></div>
+	</div>
+  </body>
+</html>

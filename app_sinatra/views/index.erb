@@ -1,0 +1,15 @@
+<h1><%=t :introduction, :scope => [:header] %></h1>
+
+<p><%=t :introduction_text, :scope => [:introduction] %><br /><br /><b>Wait for it!</b><br /> <small><i>Barney Stintson</i></small></p>
+
+<h2>Api versions</h2>
+<ul>
+  <% ApiDoc.models.keys.each do |version| %>
+   <li><%= version %>
+     <ul>
+       <li><a href="http://<%= request.env["HTTP_HOST"] %>/doc/<%= version %>">documentation</a></li>
+       <li><a href="http://<%= request.env["HTTP_HOST"] %>/form/<%= version %>">online formulars</a></li>
+     </ul>
+   </li>
+  <% end %>
+</ul>

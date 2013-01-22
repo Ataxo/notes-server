@@ -1,0 +1,40 @@
+<h1>Documentation for <%= @version %> API</h1>
+
+<div class='fast_navigation'>
+  <h2>Fast Navigation</h2>
+  <ul>
+    <li><a href='#taxonomy'>Access &amp; sandbox</a></li>
+    <li><a href='#request'>Requests</a></li>
+    <li><a href='#ruby_example'>Ruby Example</a></li>
+    <li><a href='#success_response'>Success Response</a></li>
+    <li><a href='#error_response'>Error Response</a></li>
+    <li><a href='#query_operations'>Query operations</a></li>
+    <li><a href='#pagination_limits'>Pagination &amp; Limits</a></li>
+    <li><a href='#format_types'>Format types</a></li>
+    <li><a href='#href_models'>Api Models</a>
+      <ul>
+        <% ApiDoc.models[@version].each do |model| %>
+          <% if model.api_methods.any?{|method| @api_access.method?(method.access_path @version) } %> 
+            <li><a href='#model_<%= model.name.pluralize %>'><%= model.name.pluralize %></a></li>
+          <% end %>
+        <% end %>
+      </ul>
+    </li>
+  </ul>
+</div>
+
+<%= erb 'doc/taxonomy'.to_sym %>
+
+<%= erb 'doc/request'.to_sym %>
+
+<%= erb 'doc/ruby_example'.to_sym %>
+
+<%= erb 'doc/success_response'.to_sym %>
+
+<%= erb 'doc/error_response'.to_sym %>
+
+<%= erb 'doc/pagination'.to_sym %>
+
+<%= erb 'doc/format_types'.to_sym %>
+
+<%= erb 'doc/doc_models'.to_sym %>

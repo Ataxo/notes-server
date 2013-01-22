@@ -1,0 +1,112 @@
+<h2 id='error_response'>Error response</h2>
+<p>Error responses are very importnt for every API and we decided to make it easier for you to understand how it works</p>
+
+<p>We are returning with every request its own code (part of JSON &amp; status code in headers):</p>
+<table class='display'>
+  <thead>
+    <tr>
+      <th>code</th>
+      <th>name</th>
+      <th>description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class='even'>
+      <td>400</td>
+      <td>Bad Request</td>
+      <td>Your parameters are somehow wrong or incorrect - check message output</td>
+    </tr>
+    <tr class='odd'>
+      <td>400</td>
+      <td>Not Found</td>
+      <td>It will occure when you are asking for record by ID and it doesn't exists.</td>
+    </tr>
+    <tr class='even'>
+      <td>401</td>
+      <td>Unauthorized</td>
+      <td>When your auhtorization (Access key) is not valid or you didn't pass your key into headers (or params)</td>
+    </tr>
+    <tr class='odd'>
+      <td>403</td>
+      <td>Forbidden</td>
+      <td>You are not allowed to do this request - you are asking for different taxonomy or method which you are not allowed to perform</td>
+    </tr>
+    <tr class='even'>
+      <td>404</td>
+      <td>Route Not Found</td>
+      <td>It will occure when you are asking for url (method) which doesn't exists.</td>
+    </tr>
+    <tr class='odd'>
+      <td>500</td>
+      <td>Internal Server Error</td>
+      <td>Be patient, we were informed about this error and we will try to fix it as soon as possible :-)</td>
+    </tr>
+  </tbody>
+</table>
+<p class='notify notifier'>Every error response has <code>status: "error"</code> to easier validation of Success/Error</p>
+<p>In <code>message</code> we will try to help you with finding a solution for solving error.If you find something wierd in messages, pleas let us know on <a href='devmp@ataxo.com'>devpm@ataxo.com</a></p>
+
+<h4>Example of error response</h4>
+<pre><code class="javascript"># response headers:
+# status code: 404
+{
+  status: "error",
+  code: 404,
+  error_type: "ApiError::NotFound",
+  message: "Contract cloudn't be found, params: {:taxonomy=>'sandbox', :id=>11111111111111}",
+  executed_at: "2012-10-22 22:14:53"
+}</code></pre>
+
+<h4>Example of error response on create/update</h4>
+<p>You will get in message Hash containing info about problemed properties</p>
+<p>Keys are names of propetries and value is Array of error messages (sometimes one property can have more than one error)<p>
+<pre><code class="javascript"># response headers:
+# status code: 400
+{
+  status: "error",
+  code: 400,
+  error_type: "ApiError::BadRequest",
+  message: {
+    "name":["can't be blank"],
+    "ico":["can't be blank"]
+  },
+  executed_at: "2012-10-22 22:14:53"
+}</code></pre>
+<p>There is a list of all possible error mesages you can get from Slim Api in response</p>
+<table class='display'>
+  <thead>
+    <tr><th>error message</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>must be accepted</td></tr>
+    <tr><td>can't be blank</td></tr>
+    <tr><td>doesn't match confirmation</td></tr>
+    <tr><td>can't be empty</td></tr>
+    <tr><td>must be equal to %{count}</td></tr>
+    <tr><td>must be even</td></tr>
+    <tr><td>is reserved</td></tr>
+    <tr><td>must be greater than %{count}</td></tr>
+    <tr><td>must be greater than or equal to %{count}</td></tr>
+    <tr><td>is not included in the list</td></tr>
+    <tr><td>is invalid</td></tr>
+    <tr><td>must be less than %{count}</td></tr>
+    <tr><td>must be less than or equal to %{count}</td></tr>
+    <tr><td>is not a number</td></tr>
+    <tr><td>must be a string</td></tr>
+    <tr><td>must be a date (YYYY-MM-DD)</td></tr>
+    <tr><td>must be a date time (YYYY-MM-DD HH:MM:SS)</td></tr>
+    <tr><td>must be valid URL (ex. http://your.domain.com/product)</td></tr>
+    <tr><td>must be valid postal code XXXX or XXXXX</td></tr>
+    <tr><td>must be valid telephone number</td></tr>
+    <tr><td>must be valied email address</td></tr>
+    <tr><td>must be an integer</td></tr>
+    <tr><td>must be odd</td></tr>
+    <tr><td>has already been taken</td></tr>
+    <tr><td>is too long (maximum is 1 character)</td></tr>
+    <tr><td>is too long (maximum is %{count} characters)</td></tr>
+    <tr><td>is too short (minimum is 1 character)</td></tr>
+    <tr><td>is too short (minimum is %{count} characters)</td></tr>
+    <tr><td>is the wrong length (should be 1 character)</td></tr>
+    <tr><td>is the wrong length (should be %{count} characters)</td></tr>
+  </tbody>
+</table>

@@ -1,0 +1,58 @@
+<h1><%= @access ? "Update" : "Create" %> Access</h1>
+<div class='method'>
+  <form method="<%= @access ? "put" : "post" %>" action="/accesses">
+    <% if @access %>
+      <input type='hidden' name='api_token' value='<%= @access.api_token %>' />
+    <% end %>
+    <div class='form_field required'>
+      <label for="name">Name:</label>
+      <input type="text" name='name' value='<%= @access.name if @access %>'/>
+    </div>
+
+    <div class='form_field required'>
+      <label for="taxonomies">Taxonomies:</label>
+      <div class='group'>
+        <input type="radio" name='taxonomies' value='all' <%= "checked='checked'" if @access && @access.taxonomies == :all %>  /> All 
+        <input type="radio" name='taxonomies' value='specific' <%= "checked='checked'" unless @access && @access.taxonomies == :all %> /> Specific taxonomies only
+        <div class='specific'>
+          <% BaseAdapter::Stats.config.keys.each do |taxonomy| %>
+            <% if taxonomy != "sandbox" %>
+            <% pp @access %>
+              <input type="checkbox" name='taxonomies_specific' value='<%= taxonomy %>' <%= 'checked="checked"' if @access && @access.taxonomies != :all && @access.taxonomies.include?(taxonomy.to_sym) %> /> <%= taxonomy %> <br /> 
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class='form_field required'>
+      <label for="methods">Methods:</label>
+      <div class='group'>
+        <input type="radio" name='methods' value='all' <%= "checked='checked'" if @access && @access.methods == :all %> /> All 
+        <input type="radio" name='methods' value='specific' <%= "checked='checked'" unless @access && @access.methods == :all %> /> Specific methods only <br />
+
+        <div class='specific'>
+          Allow/Disallow all: <div class='button allow_access' data-type='get'>GET</div> 
+          <div class='button allow_access' data-type='post'>POST</div>
+          <div class='button allow_access' data-type='put'>PUT</div>
+          <div class='button allow_access' data-type='delete'>DELETE</div><br />
+
+          <% ApiDoc.models.each do |version, models| %>
+            <h3>Api version: <%= version %></h3>
+            <% models.each do |model| %>
+              <h4><%= model.name.pluralize %></h4>
+              <% model.api_methods.each do |method| %>
+                <input type="checkbox" name='methods_specific' class='method_type_<%= method.type %>' value='<%= method.auth_key %>' <%= "checked='checked'" if @access && @access.method?(method.auth_key) %> /> <%= method.desc %><br /> 
+              <% end %>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <input type='submit' value='<%= @access ? "Update" : "Create" %>' />
+  </form>
+
+  <img src='/images/loader.gif' class='form_loader' />
+  <div class='form_response'></div>
+</div>
+

@@ -1,0 +1,20 @@
+<h2>Change log</h2>
+  
+<table class="display">
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Author</th>
+      <th>Message</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% APP_VERSION_GIT.changelog.each_with_index do |log,index| %>
+      <tr class="<%= index % 2 == 0 ? "odd" : "even"  %>">
+        <td><%= log[:date].strftime("%H:%M %d.%m.%Y") %></td>
+        <td><%= log[:author] %></td>
+        <td><%= log[:message] %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

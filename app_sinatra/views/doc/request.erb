@@ -1,0 +1,34 @@
+<h2 id='request'>Requests</h2>
+<p>Slim API uses HTTP verbs <code class='method_get'>GET</code>, <code class='method_post'>POST</code>, <code class='method_put'>PUT</code>, <code class='method_delete'>DELETE</code></p>
+
+<table class='display'>
+  <thead>
+    <tr>
+      <th>method</th>
+      <th>description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class='even'>
+      <td><code class='method_get'>GET</code></td>
+      <td>getting data</td>
+    </tr>
+    <tr class='odd'>
+      <td><code class='method_post'>POST</code></td>
+      <td>creating data</td>
+    </tr>
+    <tr class='even'>
+      <td><code class='method_put'>PUT</code></td>
+      <td>updating data</td>
+    </tr>
+    <tr class='odd'>
+      <td><code class='method_delete'>DELETE</code></td>
+      <td>deleting data</td>
+    </tr>
+  </tbody>
+</table>
+<p class='notify notifier'>If your client doesn't support <code class='method_put'>PUT</code> &amp; <code class='method_delete'>DELETE</code> methods you can call same url by <code class='method_post'>POST</code> with adding parameter <code>_method=delete</code> or <code>_method=put</code></p>
+
+<p>By choosing right HTTP verb you are one step closer to get your data</p>
+<p>Second step is to find model you need data from by <a href='#href_models'>looking at Models</a></p>
+<p>Every model has its own methods you can use on them - every method is identified by its <code>URL</code> &amp; <code>HTTP verb</code></p>

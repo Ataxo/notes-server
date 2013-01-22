@@ -1,0 +1,103 @@
+<p>Statistic <code class='method_get'>GET</code> methods are little bit different than normal get methods</p>
+
+<p>Basicaly default call will return all data grouped into one line - All data over all time</p>
+
+<pre><code class="javascript">{
+  "status":"ok",
+  "code":200,
+  "message":"ok",
+  "executed_at":"2012-11-07 17:14:01",
+  "executed_in":"0.353065s",
+  "statistics":[
+    {
+      "clicks":163521,
+      "impressions": 145635232121,
+      "position":3.125386,
+      "price_czk":405276.439715659,
+      "price_eur":16097.2553439046
+    }
+  ],
+  "total_count":1
+}
+</code></pre>
+
+<h3>Specify data what you want</h3>
+<p>
+    In documentation <a href='#query_operations'>Query operations</a> 
+    you can get informations how to limit/search/specify data you want to get from api.
+</p>
+
+<p>Simple example of getting statistics from api when you want statistics for campaign 1234, date range 2012-05-05 - 2012-05-10</p>
+<pre><code class='ruby'>http://<%= request.env["HTTP_HOST"] %>/<%= @version %>/<%= @taxonomy %>/statistics?<b>campaign_id</b>=<i>1234</i>&amp;<b>date.from</b>=2012-05-05&amp;<b>date.to</b>=2012-05-10</code></pre>
+<pre><code class="javascript">{
+  "status":"ok",
+  "code":200,
+  "message":"ok",
+  "executed_at":"2012-11-07 17:28:15",
+  "executed_in":"0.358178s",
+  "statistics":[
+    {
+      "campaign_id": 1234,
+      "clicks":57,
+      "impressions": 2321,
+      "position":3.955673,
+      "price_czk":112.62000143528,
+      "price_eur":4.49333077028574
+    }
+  ],
+  "total_count":1
+}
+</code></pre>
+<h3>Get what you want</h3>
+<p>
+  This is nothing - you need more data: Advertising system, search/content, you need them by date (not summary)
+</p>
+<p>
+  In this case you need to use property <code>include</code>. This will allow you to specify which properties you need in report
+</p>
+
+<pre><code class='ruby'>http://<%= request.env["HTTP_HOST"] %>/<%= @version %>/<%= @taxonomy %>/statistics?<b>include</b>=<i>campaign_id,content,partner_id</i>&amp;<b>date.from</b>=2012-05-05&amp;<b>date.to</b>=2012-05-10</code></pre>
+
+<h4>By Curl</h4>
+<pre><code class="ruby">curl --include \
+     --request GET \
+     --header "Api-Token: <%= @api_access.api_token %>" \
+     --data "include=campaign_id,content,partner_id&amp;date.from=2012-05-05&amp;date.to=2012-05-10" \
+     "http://<%= request.env["HTTP_HOST"] %>/<%= @version %>/<%= @taxonomy %>/statistics"
+</code></pre>
+<p class='notify notifier'>If you need statistics by day include <code>date</code> in <code>include</code> request params</p>
+
+<h4>Response</h4>
+<pre><code class="javascript">{
+  "status":"ok",
+  "code":200,
+  "message":"ok",
+  "executed_at":"2012-11-07 17:55:04",
+  "executed_in":"0.424977s",
+  "statistics":[
+    {
+      "campaign_id":1219,
+      "partner_id":1,
+      "content":false,
+      "clicks":720,
+      "position":1.785215,
+      "impressions": 2435,
+      "price_czk":4429.66351935327,
+      "price_eur":176.870004943269
+    },
+    {
+      "campaign_id":1273,
+      "partner_id":1,
+      "content":true,
+      "clicks":84,
+      "position":3.645699,
+      "impressions": 43622326,
+      "price_czk":276.907056897675,
+      "price_eur":11.0500003047915
+    },
+    ...
+  ],
+  "total_count":15
+}
+</code></pre>
+<p class='notify notifier'>For real currency of prices include <code>currency</code> in <code>include</code> and in response you will get <code>currency</code> and another <code>price_currency</code> which is price with currency</p>

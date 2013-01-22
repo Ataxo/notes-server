@@ -1,0 +1,27 @@
+<h2 id='taxonomy'>Access &amp; sandbox</h2>
+<p>Every client has its own taxonomy. Long story short - It is like normal account of every other application. Or namespace.</p>
+<p>You as client will be provided with:</p>
+<pre><code class='ruby'>api_token: "<%= @api_access.api_token %>"
+taxonomy: "<%= @taxonomy %>"</code></pre>
+
+<h3>API Version &amp; Taxonomy</h3>
+<p>Taxonomy is big namespace of all things under one client</p>
+<h4>Build your URL</h4>
+<pre><code class='ruby'>http://<%= request.env["HTTP_HOST"] %>/<b>API_VERSION</b>/<b>YOUR_TAXONOMY</b>/...
+# <b>API_VERSION</b> -> Version of api allways in format v1 v2 ... currently <%= @version %>
+# <b>YOUR_TAXONOMY</b> -> name of your taxonomy</code></pre>
+
+<h3>Authorization by token</h3>
+<p>You will need to add application token into headers of all your requests:</p>
+<pre><code class='ruby'># request headers:
+# <b>Api-Token: "<%= @api_access.api_token %>"</b>
+# <b>Content-Type: "application/json"</b></code></pre>
+<p>or into request params like:</p>
+<pre><code class='ruby'>http://<%= request.env["HTTP_HOST"] %>/v1/sandbox/models?<b>api_token</b>=<%= @api_access.api_token %></code></pre>
+
+<h3>Sandbox</h3>
+<p>It is very risky to play wit hot data, when building of your client is in middle of developmnet, therefor we provide sandbox taxonomy.
+This taxonomy is only preview of real datas you can get/create/update/delete</p>
+<p>In Sandbox you can do whatever you want. Every day at mignight will be deleted with same default dataset.</p>
+<p class='notify notifier'>Sandbox is shared between all clients, for this reason be nice and don't delete everything at start of day :-) </p>
+<p>Working with sandbox is easy, just change in your URL <code>YOUR_TAXONOMY</code> to <code>sandbox</code></p>

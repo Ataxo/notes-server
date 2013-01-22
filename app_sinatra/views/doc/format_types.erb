@@ -1,0 +1,16 @@
+<h2 id='format_types'>Format Types</h2>
+<p>Slim Api uses validations for every parameter</p>
+
+<ul>
+  <li><b>Boolean</b> - [true, false]</li>
+  <li><b>Integer</b> - numerical value without floating point <code>/^[-+][0-9]+$/</code></li>
+  <li><b>Float</b> - numerical value with floating point <code>/^[-+]?[0-9]+\.?[0-9]*$/</code></li>
+  <li><b>String</b> - string value (text)</li>
+  <li><b>Date</b> - date value in format <code>YYYY-MM-DD</code></li>
+  <li><b>DateTime</b> - date value in format <code>YYYY-MM-DD HH:MM:SS</code></li>
+  <li><b>Url</b> - valid url address <code><%= URI.regexp(['http']) %></code></li>
+  <li><b>Email</b> - valid email address  <code>/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i</code></li>
+  <li><b>Postalcode</b> - postal code / zip code in format (XXXX or XXXXX)</li>
+  <li><b>Telephone</b> - telephone number in format (best: +XXXXXXXXXXXX) <code>/^[+]?[0-9]{6,12}$/</code></li>
+  <li><b>Array</b> - showned as ['value1', 'value2'] - you are allowed to insert only shown values</li>
+</ul>
