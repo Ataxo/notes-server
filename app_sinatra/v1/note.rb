@@ -39,7 +39,7 @@ class NotesSinatra < Sinatra::Base
               [:user_id, :client_id, :contract_id].each do |field|
                 if args.has_key?(field)
                   if args[field].size > 0
-                    must { integer "#{field}:#{args[field]}" }
+                    must { string "#{field}:#{args[field]}" }
                   else
                     must { string "_missing_:#{field}" }
                   end
