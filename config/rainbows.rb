@@ -3,9 +3,9 @@
 env = ENV['RAILS_ENV'] || ENV['RACK_ENV'] || 'production'
 
 if env == "stage"
-  worker_processes 5
+  worker_processes 2
 elsif env == "production"
-  worker_processes 20
+  worker_processes 5
 else
   worker_processes 1
 end
