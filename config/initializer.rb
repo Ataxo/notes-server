@@ -13,5 +13,7 @@ end
 
 I18n.backend = CopycopterClient::I18nBackend.new CopycopterClient.cache
 
+tire_conf = File.join(File.dirname(__FILE__),"tire.rb")
+require tire_conf if File.exists?(tire_conf)
 #Enable Query Cache
 
