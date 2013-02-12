@@ -21,9 +21,19 @@ class NotesSinatra < Sinatra::Base
     else
       items = ApiAdapter::Note.search do
 
-       if [:user, :client, :contract, :content, :application, :user_id, :client_id, :contract_id].any?{|field| args.has_key?(field)}
+       if [:id, :user, :client, :contract, :content, :application, :user_id, :client_id, :contract_id].any?{|field| args.has_key?(field)}
           query do
             boolean do
+
+              #try to find id
+              [:id].each do |field|
+                if args.has_key?(field)
+                  if args[field].size > 0
+                    must { string "_#{field}:#{args[field]}" }
+                  end
+                end
+              end
+
               #try to find fields
               [:user, :client, :contract, :content, :application].each do |field|
                 if args.has_key?(field)
