@@ -15,7 +15,7 @@
         <input type="radio" name='taxonomies' value='all' <%= "checked='checked'" if @access && @access.taxonomies == :all %>  /> All 
         <input type="radio" name='taxonomies' value='specific' <%= "checked='checked'" unless @access && @access.taxonomies == :all %> /> Specific taxonomies only
         <div class='specific'>
-          <% BaseAdapter::Stats.config.keys.each do |taxonomy| %>
+          <% Notes.taxonomies.each do |taxonomy| %>
             <% if taxonomy != "sandbox" %>
             <% pp @access %>
               <input type="checkbox" name='taxonomies_specific' value='<%= taxonomy %>' <%= 'checked="checked"' if @access && @access.taxonomies != :all && @access.taxonomies.include?(taxonomy.to_sym) %> /> <%= taxonomy %> <br /> 
