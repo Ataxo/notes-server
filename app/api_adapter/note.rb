@@ -27,6 +27,12 @@ module ApiAdapter
     before_save  :set_date_created
     before_save  :set_date_updated
 
+    after_save :refresh_index
+
+    def refresh_index
+      ApiAdapter::Note.index.refresh
+    end
+    
     def self.count 
       Tire::Search::Count.new(index_name).perform.value
     end
