@@ -1,6 +1,10 @@
 # -*- encoding : utf-8 -*-
 
 class NotesSinatra < Sinatra::Base
+  STRING_COLUMNS = [ :user, :recipient, :client, :contract, :content, :application ]
+  IDS_COLUMNS    = [ :user_id, :recipient_id, :client_id, :contract_id ]
+  DATE_COLUMNS   = [ :finished_at, :due_date_at, :created_at, :updated_at ]
+
   ApiDoc::Method.new(
     :class_name => ApiAdapter::Note,
     :version => :v1,
@@ -11,7 +15,7 @@ class NotesSinatra < Sinatra::Base
   #Return list of note
   get "/v1/:taxonomy/notes" do
     protected_api "v1|get|/notes"
-    Tire.configure do 
+    Tire.configure do
       logger STDOUT
     end
     args = params.symbolize_keys!
@@ -21,7 +25,7 @@ class NotesSinatra < Sinatra::Base
     else
       items = ApiAdapter::Note.search do
 
-       if [:id, :user, :client, :contract, :content, :application, :user_id, :client_id, :contract_id].any?{|field| args.has_key?(field)}
+        if ([:id] | STRING_COLUMNS | IDS_COLUMNS | DATE_COLUMNS).any?{|field| args.has_key?(field)}
           query do
             boolean do
 
@@ -35,7 +39,7 @@ class NotesSinatra < Sinatra::Base
               end
 
               #try to find fields
-              [:user, :client, :contract, :content, :application].each do |field|
+              (IDS_COLUMNS | STRING_COLUMNS).each do |field|
                 if args.has_key?(field)
                   if args[field].size > 0
                     must { string "#{field}:#{args[field]}" }
@@ -45,10 +49,13 @@ class NotesSinatra < Sinatra::Base
                 end
               end
 
-              #try to find field_id
-              [:user_id, :client_id, :contract_id].each do |field|
+
+              DATE_COLUMNS.each do |field|
                 if args.has_key?(field)
-                  if args[field].size > 0
+                  #date must be sent as hash with from and to params
+                  if args[field].is_a?(Hash)
+                    must { range(field, args[field] ) }
+                  elsif args[field].size > 0
                     must { string "#{field}:#{args[field]}" }
                   else
                     must { string "_missing_:#{field}" }
@@ -59,6 +66,7 @@ class NotesSinatra < Sinatra::Base
             end
           end
         end
+
         #pagination
         # - limit
         size limit
@@ -69,8 +77,10 @@ class NotesSinatra < Sinatra::Base
       end
       items_count = items.total
     end
-    data = { 
-      notes: items.collect{|c| c.attributes }, 
+
+
+    data = {
+      notes: items.collect{|c| c.attributes },
       total_count: items_count
     }
     render_output data
