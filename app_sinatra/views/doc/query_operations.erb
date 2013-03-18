@@ -1,0 +1,64 @@
+<h2 id='query_operations'>Query operations</h2>
+<h3>Simple queries</h3>
+<p>Easiest way to get some data from Notes api is to add parameter into <code class='method_get'>GET</code> query</p>
+
+<h4>Example of simple query</h4>
+<pre><code class='ruby'># get all records with id = 10
+http://<%= request.env["HTTP_HOST"] %>/v1/sandbox/models?<b>id</b>=10
+
+# get all records with admin_id = 243
+http://<%= request.env["HTTP_HOST"] %>/v1/sandbox/models?<b>admin_id</b>=243
+
+# get all records with country = 'cz'
+http://<%= request.env["HTTP_HOST"] %>/v1/sandbox/models?<b>country</b>=cz
+
+# get all records with date = '2012-12-23'
+http://<%= request.env["HTTP_HOST"] %>/v1/sandbox/models?<b>date</b>=2012-12-23
+
+# little bit complex but still simple
+# get all records with id = 12 and date = '2012-12-23'
+http://<%= request.env["HTTP_HOST"] %>/v1/sandbox/models?<b>id</b>=12&amp;<b>date</b>=2012-12-23
+
+# get all records with id = 12 and admin_id = 5 and country = 'cz' and date = '2012-12-23'
+http://<%= request.env["HTTP_HOST"] %>/v1/sandbox/models?<b>id</b>=12&amp;<b>admin</b>=5&amp;<b>country</b>=cz&amp;<b>date</b>=2012-12-23</code></pre>
+
+<h3>Date queries with greater/lower than etc.</h3>
+<p>For building more complex queries against Notes you can use query operators:</p>
+<table class='display'>
+  <thead>
+    <tr>
+      <th>operator</th>
+      <th>description</th>
+    </tr>
+  </thead>
+
+  <tbody>
+      <tr>
+        <td>from</td>
+        <td>The lower bound. Defaults to start from the first.</td>
+      </tr>
+      <tr>
+        <td>to</td>
+        <td>The upper bound. Defaults to unbounded.</td>
+      </tr>
+      <tr>
+        <td>gt</td>
+        <td>Same as setting <code>from</code>.</td>
+      </tr>
+      <tr>
+        <td>lt</td>
+        <td>Same as setting <code>to</code>.</td>
+      </tr>
+      <tr>
+        <td>gte</td>
+        <td> &gt;= </td>
+      </tr>
+      <tr>
+        <td>lte</td>
+        <td> &lt;= </td>
+      </tr>
+  </tbody>
+</table>
+<h4>Example of date query operators</h4>
+<p>You need to find notes between date range 2012-06-01 - 2012-06-30</p>
+<pre><code class='ruby'>http://<%= request.env["HTTP_HOST"] %>/v1/sandbox/models?<b>date.from</b>=2012-06-01&amp;<b>date.to</b>=2012-06-30</code></pre>

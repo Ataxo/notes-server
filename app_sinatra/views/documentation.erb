@@ -14,7 +14,7 @@
     <li><a href='#href_models'>Api Models</a>
       <ul>
         <% ApiDoc.models[@version].each do |model| %>
-          <% if model.api_methods.any?{|method| @api_access.method?(method.access_path @version) } %> 
+          <% if model.api_methods.any?{|method| @api_access.method?(method.access_path @version) } %>
             <li><a href='#model_<%= model.name.pluralize %>'><%= model.name.pluralize %></a></li>
           <% end %>
         <% end %>
@@ -32,6 +32,8 @@
 <%= erb 'doc/success_response'.to_sym %>
 
 <%= erb 'doc/error_response'.to_sym %>
+
+<%= erb 'doc/query_operations'.to_sym %>
 
 <%= erb 'doc/pagination'.to_sym %>
 
