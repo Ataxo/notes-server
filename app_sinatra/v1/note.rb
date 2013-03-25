@@ -20,6 +20,7 @@ class NotesSinatra < Sinatra::Base
     end
     begin
       args = Yajl::Parser.parse(request.body, :symbolize_keys => true)
+      args = params.symbolize_keys! if args.nil?
     rescue
       args = params.symbolize_keys!
     end
