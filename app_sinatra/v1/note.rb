@@ -18,7 +18,11 @@ class NotesSinatra < Sinatra::Base
     Tire.configure do
       logger STDOUT
     end
-    args = params.symbolize_keys!
+    begin
+      args = Yajl::Parser.parse(request.body, :symbolize_keys => true)
+    rescue
+      args = params.symbolize_keys!
+    end
     limit = args.has_key?(:limit) ? args[:limit].to_i : Notes::FIND_DEFAULT[:limit]
     if args[:fixtures]
       items = [ ApiAdapter::Note.new(ApiAdapter::Note.fixture) ]
@@ -33,13 +37,24 @@ class NotesSinatra < Sinatra::Base
               [:id].each do |field|
                 if args.has_key?(field)
                   if args[field].size > 0
-                    must { string "_#{field}:#{args[field]}" }
+                    must { ids Array(args[field]), "_all" }
                   end
                 end
               end
 
               #try to find fields
-              (IDS_COLUMNS | STRING_COLUMNS).each do |field|
+              IDS_COLUMNS.each do |field|
+                if args.has_key?(field)
+                  #one item
+                  if args[field].size > 0
+                    must { terms field, args[field].is_a?(Array) ? args[field] : [args[field]] }
+                  else
+                    must { string "_missing_:#{field}" }
+                  end
+                end
+              end
+
+              STRING_COLUMNS.each do |field|
                 if args.has_key?(field)
                   if args[field].size > 0
                     must { string "#{field}:#{args[field]}" }
@@ -56,7 +71,7 @@ class NotesSinatra < Sinatra::Base
                   if args[field].is_a?(Hash)
                     must { range(field, args[field] ) }
                   elsif args[field].size > 0
-                    must { string "#{field}:#{args[field]}" }
+                    must { term field, args[field] }
                   else
                     must { string "_missing_:#{field}" }
                   end

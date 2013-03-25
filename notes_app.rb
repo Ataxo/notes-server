@@ -4,10 +4,14 @@ require 'rack'
 require 'pp'
 require 'logger'
 require 'tire'
+require 'tire/http/clients/curb'
 require 'digest/sha1'
 
 require 'copycopter_client'
 
+Tire.configure do
+  client Tire::HTTP::Client::Curb
+end
 
 APP_ROOT = File.expand_path(File.dirname(__FILE__))
 

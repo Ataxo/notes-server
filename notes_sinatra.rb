@@ -7,7 +7,7 @@ require 'yajl'
 
 class NotesSinatra < Sinatra::Base
   # allow user to send normal get method with _method=put x delete
-  use Rack::MethodOverride
+  set :method_override, true
 
   set :default_locale, 'en'
 
@@ -22,7 +22,7 @@ class NotesSinatra < Sinatra::Base
       #split path for getting taxonomy
       path = request.path.split("/")
       set_taxonomy path[2] if path && path.size > 2 #taxonomy
-    
+
     #by taxonomy param
     elsif params[:taxonomy]
       set_taxonomy params[:taxonomy]
@@ -30,7 +30,7 @@ class NotesSinatra < Sinatra::Base
     #by taxonomy session
     elsif session[:taxonomy]
       set_taxonomy session[:taxonomy]
-      
+
     #set default as sandbox
     else
       set_taxonomy "sandbox"

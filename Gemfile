@@ -4,6 +4,8 @@ gem "rake", "~> 0.9.2"
 
 gem "activesupport", "~> 3.2.0"
 
+gem 'curb'
+
 gem "tire", :git => "git://github.com/ondrejbartas/tire.git"
 
 #Frontend
