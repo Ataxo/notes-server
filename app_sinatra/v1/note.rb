@@ -48,7 +48,7 @@ class NotesSinatra < Sinatra::Base
                 if args.has_key?(field)
                   #one item
                   if args[field].size > 0
-                    must { terms field, args[field].is_a?(Array) ? args[field] : [args[field]] }
+                    must { terms field, Array(args[field]) }
                   else
                     must { string "_missing_:#{field}" }
                   end
@@ -87,7 +87,7 @@ class NotesSinatra < Sinatra::Base
         # - limit
         size limit
         # - page
-        from (args.has_key?(:offset) ? args[:offset].to_i : Notes::FIND_DEFAULT[:offset] )*limit
+        from args.has_key?(:offset) ? args[:offset].to_i : Notes::FIND_DEFAULT[:offset]
 
         sort { by :created_at, 'desc' }
       end

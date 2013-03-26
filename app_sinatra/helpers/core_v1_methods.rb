@@ -3,7 +3,7 @@
 class NotesSinatra < Sinatra::Base
   # enable t & l helper in views for translations
   module CoreV1Methods
-    
+
     def name_for_klass klass
       klass.to_s.demodulize.underscore
     end
@@ -47,14 +47,14 @@ class NotesSinatra < Sinatra::Base
           # - limit
           size limit
           # - page
-          from (args.has_key?(:offset) ? args[:offset].to_i : Notes::FIND_DEFAULT[:offset] )*limit
+          from args.has_key?(:offset) ? args[:offset].to_i : Notes::FIND_DEFAULT[:offset]
 
           sort { by :created_at, 'desc' }
         end
         items_count = items.total
       end
-      data = { 
-        pluralized_name_for_klass(klass).to_sym => items.collect{|c| c.attributes }, 
+      data = {
+        pluralized_name_for_klass(klass).to_sym => items.collect{|c| c.attributes },
         total_count: items_count
       }
       render_output data
@@ -70,7 +70,7 @@ class NotesSinatra < Sinatra::Base
 
       #if there is no client, then raise NotFound
       raise ApiError::NotFound, "#{name_for_klass(klass).humanize} cloudn't be found, params: #{input_params}" unless item
-      
+
       data = { name_for_klass(klass).to_sym => item.attributes }
       render_output data
     end
@@ -85,34 +85,34 @@ class NotesSinatra < Sinatra::Base
       item = klass.new(input_args)
       if item.valid?
         item.save
-        render_output( 
+        render_output(
           {
-            :message => "#{name_for_klass(klass).humanize} was succesfully created", 
-            name_for_klass(klass).to_sym => item.attributes 
+            :message => "#{name_for_klass(klass).humanize} was succesfully created",
+            name_for_klass(klass).to_sym => item.attributes
           } , 201
         )
       else
-        render_error 400, 
-          ApiError::BadRequest, 
-          { 
-            :message => "#{name_for_klass(klass).humanize} has problpems with create, check out _errors", 
+        render_error 400,
+          ApiError::BadRequest,
+          {
+            :message => "#{name_for_klass(klass).humanize} has problpems with create, check out _errors",
             name_for_klass(klass).to_sym => item.attributes.merge(_errors: item.errors.to_hash)
           }
       end
     end
 
     def v1_update klass, params
-      args = get_args_from_json 
+      args = get_args_from_json
       item = klass.find(params[:id])
       if item
         if item.update_attributes args
-          render_output :message => "#{name_for_klass(klass).humanize} was succesfully updated", 
-            name_for_klass(klass).to_sym => item.attributes 
+          render_output :message => "#{name_for_klass(klass).humanize} was succesfully updated",
+            name_for_klass(klass).to_sym => item.attributes
         else
-          render_error 400, 
-            ApiError::BadRequest, 
-            { 
-              message: "#{name_for_klass(klass).humanize} has problpems with update, check out _errors", 
+          render_error 400,
+            ApiError::BadRequest,
+            {
+              message: "#{name_for_klass(klass).humanize} has problpems with update, check out _errors",
               _errors: item.attributes.merge(_errors: item.errors.to_hash)
             }
         end
@@ -127,7 +127,7 @@ class NotesSinatra < Sinatra::Base
         render_error 400, ApiError::NotFound, "Couldn't find any  by given #{params[:id]} id"
       else
         if item.destroy
-          render_output message: "#{name_for_klass(klass).humanize} was succesfully deleted" 
+          render_output message: "#{name_for_klass(klass).humanize} was succesfully deleted"
         else
           render_error 400, ApiError::BadRequest, item.errors.to_hash
         end
