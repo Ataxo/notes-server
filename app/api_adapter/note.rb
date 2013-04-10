@@ -11,13 +11,13 @@ module ApiAdapter
 
     property :id            , type: "string",   index: 'not_analyzed'
     property :application   , type: "string",   index: 'not_analyzed'
-    property :client_id     , type: "integer",  index: 'not_analyzed'
+    property :client_id     , type: "string",   index: 'not_analyzed'
     property :client        , type: "string",   index: 'not_analyzed'
-    property :contract_id   , type: "integer",  index: 'not_analyzed'
+    property :contract_id   , type: "string",   index: 'not_analyzed'
     property :contract      , type: "string",   index: 'not_analyzed'
-    property :user_id       , type: "integer",  index: 'not_analyzed'
+    property :user_id       , type: "string",   index: 'not_analyzed'
     property :user          , type: "string",   index: 'not_analyzed'
-    property :recipient_id  , type: "integer",  index: 'not_analyzed'
+    property :recipient_id  , type: "string",   index: 'not_analyzed'
     property :recipient     , type: "string",   index: 'not_analyzed'
     property :content       , type: "string",   analyzer: 'czech'
     property :created_at    , type: "date"
