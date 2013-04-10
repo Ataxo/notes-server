@@ -28,10 +28,10 @@ module ApiAdapter
     validates :client_id, :contract_id, :user_id, :numericality => { :only_integer => true }, :allow_nil => true
     validates :content, :presence => true
 
+    after_save :refresh_index
+
     before_save  :set_date_created
     before_save  :set_date_updated
-
-    after_save :refresh_index
 
     def refresh_index
       ApiAdapter::Note.index.refresh
