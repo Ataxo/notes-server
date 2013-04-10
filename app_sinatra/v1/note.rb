@@ -48,7 +48,7 @@ class NotesSinatra < Sinatra::Base
                 if args.has_key?(field)
                   #one item
                   if args[field].size > 0
-                    must { terms field, Array(args[field]) }
+                    must { terms field, Array(args[field]).collect{|i| i.to_i} }
                   else
                     must { string "_missing_:#{field}" }
                   end
