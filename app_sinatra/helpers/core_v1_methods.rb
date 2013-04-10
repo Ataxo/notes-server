@@ -83,8 +83,7 @@ class NotesSinatra < Sinatra::Base
         input_args[property.to_sym] = args[property.to_sym] if args.has_key?(property.to_sym)
       end
       item = klass.new(input_args)
-      if item.valid?
-        item.save
+      if item.valid? && item.save
         render_output(
           {
             :message => "#{name_for_klass(klass).humanize} was succesfully created",
@@ -95,7 +94,7 @@ class NotesSinatra < Sinatra::Base
         render_error 400,
           ApiError::BadRequest,
           {
-            :message => "#{name_for_klass(klass).humanize} has problpems with create, check out _errors",
+            :message => "#{name_for_klass(klass).humanize} has problems with create, check out _errors",
             name_for_klass(klass).to_sym => item.attributes.merge(_errors: item.errors.to_hash)
           }
       end
