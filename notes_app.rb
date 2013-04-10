@@ -7,6 +7,8 @@ require 'tire'
 require 'tire/http/clients/curb'
 require 'digest/sha1'
 
+Tire.configure { logger 'elasticsearch.log', :level => 'debug' }
+
 require 'copycopter_client'
 
 Tire.configure do
@@ -32,3 +34,5 @@ Dir[File.join(File.dirname(__FILE__),"/app/**/*.rb")].each {|file| require file 
 require './config/initializer'
 
 require './config/notes_taxonomies' if File.exist?("./config/notes_taxonomies.rb")
+
+require './config/tire_initialize'
