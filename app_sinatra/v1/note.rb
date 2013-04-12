@@ -18,10 +18,11 @@ class NotesSinatra < Sinatra::Base
     Tire.configure do
       logger STDOUT
     end
+
     begin
       args = Yajl::Parser.parse(request.body, :symbolize_keys => true)
       args = params.symbolize_keys! if args.nil?
-    rescue
+    rescue Exception => e
       args = params.symbolize_keys!
     end
     limit = args.has_key?(:limit) ? args[:limit].to_i : Notes::FIND_DEFAULT[:limit]
@@ -48,7 +49,7 @@ class NotesSinatra < Sinatra::Base
                 if args.has_key?(field)
                   #one item
                   if args[field].size > 0
-                    must { terms field, Array(args[field]) }
+                    must { terms field, Array(args[field]).collect{|i| i.to_s} }
                   else
                     must { string "_missing_:#{field}" }
                   end
