@@ -95,7 +95,7 @@ class NotesSinatra < Sinatra::Base
         #get order direction
         order_direction = order_by.include?("desc") ? "desc" : "asc"
         #fix name of column
-        order_by = order_by.gsub("asc", "").gsub("desc").strip
+        order_by = order_by.gsub("asc", "").gsub("desc","").strip
         #set order by and direction
         sort { by order_by, order_direction }
       end
