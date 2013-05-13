@@ -3,6 +3,7 @@ module Notes
   FIND_DEFAULT = {
     :limit => 10,
     :offset => 0,
+    :order => :created_at,
   }
 
   def self.api_users
