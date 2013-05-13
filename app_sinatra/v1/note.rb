@@ -91,7 +91,7 @@ class NotesSinatra < Sinatra::Base
         from args.has_key?(:offset) ? args[:offset].to_i : Notes::FIND_DEFAULT[:offset]
 
         #get order by
-        order_by = args.has_key?(:order) ? args[:order].to_i : Notes::FIND_DEFAULT[:order]
+        order_by = args.has_key?(:order) ? args[:order].to_s : Notes::FIND_DEFAULT[:order].to_s
         #get order direction
         order_direction = order_by.include?("desc") ? "desc" : "asc"
         #fix name of column
