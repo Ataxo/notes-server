@@ -96,8 +96,12 @@ class NotesSinatra < Sinatra::Base
         order_direction = order_by.include?("desc") ? "desc" : "asc"
         #fix name of column
         order_by = order_by.gsub("asc", "").gsub("desc","").strip
-        #set order by and direction
-        sort { by order_by, order_direction }
+        sort do
+          #set order by and direction
+          by order_by, order_direction
+          #and secondary order by descendat created at
+          by :created_at, 'desc'
+      end
       end
       items_count = items.total
     end
